@@ -93,8 +93,8 @@ public:
 
     vector<vector<int> > legalMoves(){
 
-      cout << xcoordinate << endl;
-      cout << ycoordinate << endl;
+      // cout << xcoordinate << endl;
+      // cout << ycoordinate << endl;
 
       vector<vector<int> > potentialMoves = {{xcoordinate - 1, ycoordinate}, {xcoordinate + 1, ycoordinate}, {xcoordinate, ycoordinate - 1}, {xcoordinate, ycoordinate + 1}};
 
@@ -105,7 +105,7 @@ public:
           if((potentialMoves.at(i).at(0) >= 0 && potentialMoves.at(i).at(0) <= 2) && (potentialMoves.at(i).at(1) >= 0 && potentialMoves.at(i).at(1) <= 2)){
 
             validMoves.push_back(potentialMoves.at(i));
-            cout << "potential moves " << potentialMoves.at(i).at(0) << " " << potentialMoves.at(i).at(1) << endl;
+            //cout << "potential moves " << potentialMoves.at(i).at(0) << " " << potentialMoves.at(i).at(1) << endl;
           }
       }
 
@@ -115,13 +115,14 @@ public:
 
     void expandBoardState(int h = 0){
 
-      vector<vector<int> > validMoves = legalMoves();
+      vector<vector<int> > validMoves = this->legalMoves();
+
 
 
       for(int i = 0; i < validMoves.size(); i++){
         //this->printBoardState();
-        cout << "this xcoordinate: " << this->xcoordinate << endl;
-        cout << "this ycoordinate: " << this->ycoordinate << endl;
+        // cout << "this xcoordinate: " << this->xcoordinate << endl;
+        // cout << "this ycoordinate: " << this->ycoordinate << endl;
         bool flag = false;
 
         BoardState* addChild = new BoardState(this->board); //deep copy
@@ -148,6 +149,7 @@ public:
 
         BoardState* newBoard = new BoardState(addChild->board);
         newBoard->gnCost = this->gnCost + 1;
+        newBoard->parent = this;
 
         priority_queue<BoardState*> tempQ = visitedStates;
 
@@ -168,8 +170,8 @@ public:
           expandStates.push(newBoard);
 
         }
-  cout << "Printing newboard board state" << endl;
-        newBoard->printBoardState();
+  // cout << "Printing newboard board state" << endl;
+  //       newBoard->printBoardState();
 
         
       }
@@ -186,7 +188,7 @@ public:
         visitedStates.push(topNode);
 
         if(topNode->board == goalState){
-
+          this->printSolution(topNode);
           return topNode->gnCost;
         }
 
@@ -194,6 +196,13 @@ public:
 
 
 
+      }
+    }
+
+    void printSolution(BoardState* final) {
+      while (final->parent) {
+        final->printBoardState();
+        final = final->parent;
       }
     }
 
