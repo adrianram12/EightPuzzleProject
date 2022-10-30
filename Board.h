@@ -5,12 +5,14 @@
 #include <vector>
 #include <queue>
 
+//#include "BoardCompare.h"
+
 using namespace std;
 
 class BoardState;
 
-priority_queue<BoardState*> visitedStates;
-priority_queue<BoardState*> expandStates;
+queue<BoardState*> visitedStates;
+queue<BoardState*> expandStates;
 
 vector<vector<int> > goalState = {{1,2,3}, {4,5,6}, {7,8,0}};
 
@@ -18,24 +20,38 @@ vector<vector<int> > goalState = {{1,2,3}, {4,5,6}, {7,8,0}};
 class BoardState{
 
 public:
+   // BoardCompare *a;
     vector<vector<int> > board;
     int xcoordinate;
     int ycoordinate;
 
-    int gnCost = 0;
+    int gnCost;
     int fnCost = 0;
+    int hnCost = 0;
 
     BoardState* parent = nullptr;
 
+    bool operator()(BoardState* rhs)
+  {
+        return this->gnCost < rhs->gnCost;
+  }
+
     BoardState(){
-      //this->findBlankSpace();
+      this->findBlankSpace();
+      gnCost = 0;
+      fnCost = 0;
+
     }
 
     BoardState(vector<vector<int> > x){
 
         // cout << "sbout to find blank spac" << endl;
         this->board = x;
+
         this->findBlankSpace();
+
+        gnCost = 0;
+        fnCost = 0;
 
     }
 
@@ -76,6 +92,24 @@ public:
 
     }
 
+    int MisplacedTile(){
+
+      int misplacedTiles = 0;
+      
+      for(int i = 0; i < this->board.size(); i++){
+        for(int j = 0; j < this->board.size(); j++){
+
+          if(this->board.at(i).at(j) != goalState.at(i).at(j)){
+
+            misplacedTiles = misplacedTiles + 1;
+          }
+        }
+      }
+
+      return misplacedTiles;
+
+    }
+
     void findBlankSpace(){
 
       for(unsigned int i = 0; i < 3; i++){
@@ -105,19 +139,20 @@ public:
           if((potentialMoves.at(i).at(0) >= 0 && potentialMoves.at(i).at(0) <= 2) && (potentialMoves.at(i).at(1) >= 0 && potentialMoves.at(i).at(1) <= 2)){
 
             validMoves.push_back(potentialMoves.at(i));
-            //cout << "potential moves " << potentialMoves.at(i).at(0) << " " << potentialMoves.at(i).at(1) << endl;
+            //cout << "potential moves " << potentialMoves.at(i).at(0) << " " << potentialMoves.at(i).at(1) << endl; //comment this out
           }
       }
+
+     //cout << endl; //comment out
+     // cout << endl; //comment out
 
       return validMoves;
 
     }
 
-    void expandBoardState(int h = 0){
+    void expandBoardState(int heuristic){
 
       vector<vector<int> > validMoves = this->legalMoves();
-
-
 
       for(int i = 0; i < validMoves.size(); i++){
         //this->printBoardState();
@@ -145,17 +180,26 @@ public:
         //cout << "-----------------------------------" << endl;
         //cout << addChild->board.at(xcoordinate).at(ycoordinate) << endl;
 
+        if(heuristic == 1){
+          fnCost = this->gnCost + MisplacedTile();
+        }
 
+        else if(heuristic == 2){
+
+          //fnCost = this->gnCost + ManhattanDistance();
+        }
 
         BoardState* newBoard = new BoardState(addChild->board);
         newBoard->gnCost = this->gnCost + 1;
+        
+        //cout << "GNCOST!!!!!!!!!!!!!!!!!!!!!!!: " << newBoard->gnCost << endl;
         newBoard->parent = this;
 
-        priority_queue<BoardState*> tempQ = visitedStates;
+        queue<BoardState*> tempQ = visitedStates;
 
         while(!(tempQ.empty())){
 
-          if(newBoard->board == tempQ.top()->board) {
+          if(newBoard->board == tempQ.front()->board) {
             flag = true;
             break;
           }
@@ -167,46 +211,20 @@ public:
 
         if (!flag) {
 
+          
           expandStates.push(newBoard);
+    
 
         }
   // cout << "Printing newboard board state" << endl;
   //       newBoard->printBoardState();
-
-        
       }
+
+
 
     }
 
-    int solvePuzzle(){
-
-      while(expandStates.size() != 0){
-
-        BoardState* topNode = expandStates.top();
-        expandStates.pop();
-
-        visitedStates.push(topNode);
-
-        if(topNode->board == goalState){
-          this->printSolution(topNode);
-          return topNode->gnCost;
-        }
-
-        topNode->expandBoardState();
-
-
-
-      }
-    }
-
-    void printSolution(BoardState* final) {
-      while (final->parent) {
-        final->printBoardState();
-        final = final->parent;
-      }
-    }
-
-    void printBoardState(){
+    void printPuzzleState(){
 
         for(unsigned int i = 0; i < this->board.size(); i++){
             for(unsigned int j = 0; j < this->board.size(); j++){
@@ -219,6 +237,47 @@ public:
 cout << endl;
 cout << endl;
     }
+};
+
+class ActualPuzzle{
+
+  public:
+
+  bool operator()(BoardState* lhs, BoardState* rhs)
+  {
+        return lhs->gnCost < rhs->gnCost;
+  }
+
+    int solvePuzzle(int heuristic){
+
+      while(expandStates.size() != 0){
+
+        BoardState* topNode = expandStates.front();
+        expandStates.pop();
+
+
+        visitedStates.push(topNode);
+
+        if(topNode->board == goalState){
+          this->printSolution(topNode);
+          return topNode->gnCost;
+        }
+
+        topNode->expandBoardState(heuristic);
+
+
+
+      }
+    }
+
+    void printSolution(BoardState* final) {
+      while (final->parent) {
+        final->printPuzzleState();
+        final = final->parent;
+      }
+    }
+
+    
 };
 
 #endif
