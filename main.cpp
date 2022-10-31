@@ -9,6 +9,7 @@ using namespace std;
 
 int numNodesExpanded = 0;
 
+
 class BoardState;
 
 priority_queue<BoardState *> visitedStates;
@@ -61,6 +62,9 @@ public:
 
     parent = new BoardState();
     *parent = copyConstr.parent;
+
+    child = new BoardState(); //ADDED THISSSSS
+    *child = copyConstr.child; //ADDED THISSSSS
   }
 
   BoardState operator=(BoardState *overload) {
@@ -73,6 +77,7 @@ public:
     newBoard.fnCost = overload->fnCost;
     newBoard.board = overload->board;
     newBoard.parent = overload->parent;
+    newBoard.child = overload->child; // ADDED THISSSSSSSSS
 
     return *this;
   }
@@ -183,15 +188,16 @@ public:
   }
 
   void printSolution(BoardState *final) {
-    while (final->parent) { // final->parent
+    while (final->child) { // final->parent
       cout << "The best state to expand with a g(n) = " << final->gnCost
            << " and h(n) of " << final->hnCost << " is?" << endl;
       final->printPuzzleState();
-      final = final->parent; // final = final->parent
+      final = final->child; // final = final->parent
     }
   }
 };
 
+BoardState* firstBoard;
 struct Comparison {
 
   bool operator()(BoardState *lhs, BoardState *rhs) {
@@ -260,7 +266,10 @@ void BoardState::expandBoardState(int heuristic) {
     if (!flag) {
 
       expandStates.push(newBoard);
+
+      if(expandStates.size() > maxQueueSize){
       maxQueueSize = expandStates.size();
+      }
     }
   }
 }
@@ -276,7 +285,8 @@ int BoardState::solvePuzzle(int heuristic) {
     visitedStates.push(topNode);
 
     if (topNode->board == goalState) {
-      this->printSolution(topNode);
+
+      this->printSolution(firstBoard);
       return topNode->fnCost;
     }
     topNode->expandBoardState(heuristic);
@@ -460,6 +470,7 @@ int main() {
   // int heuristic = 2;
   // ActualPuzzle puzzle;
   BoardState *theInitial = new BoardState(userPuzzle);
+  firstBoard = theInitial;
   expandStates.push(theInitial);
 
   clock_t startTime = clock();
