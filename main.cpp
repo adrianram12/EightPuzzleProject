@@ -3,14 +3,11 @@
 #include <queue>
 #include <ctime>
 
-//#include "Board.h"
-
 
 using namespace std;
 class BoardState;
 
 priority_queue<BoardState*> visitedStates;
-//priority_queue<BoardState*, vector<BoardState*>, Comparison > expandStates;
 
 
 vector<vector<int> > goalState = {{1,2,3}, {4,5,6}, {7,8,0}};
@@ -32,10 +29,6 @@ public:
 void expandBoardState(int);
 int solvePuzzle(int);
 
-  //   bool operator()(BoardState* rhs)
-  // {
-  //       return this->gnCost < rhs->gnCost;
-  // }
 
     BoardState(){
       this->findBlankSpace();
@@ -170,65 +163,6 @@ int solvePuzzle(int);
 
     }
 
-    // void expandBoardState(int heuristic, priority_queue<BoardState*, vector<BoardState*>, Comparison > expandStates){
-    //   vector<vector<int> > validMoves = this->legalMoves();
-
-    //   for(int i = 0; i < validMoves.size(); i++){
-        
-    //     bool flag = false;
-
-    //     BoardState* addChild = new BoardState(this->board); //deep copy
-        
-
-    //     int temp = addChild->board.at((validMoves.at(i).at(0))).at(validMoves.at(i).at(1));
-
-    //     addChild->board.at((validMoves.at(i).at(0))).at(validMoves.at(i).at(1)) = addChild->board.at(this->xcoordinate).at(this->ycoordinate);
-
-    //     addChild->board.at(xcoordinate).at(ycoordinate) = temp;
-
-    //     if(heuristic == 1){
-    //       fnCost = this->gnCost + MisplacedTile();
-    //     }
-
-    //     else if(heuristic == 2){
-
-    //       //fnCost = this->gnCost + ManhattanDistance();
-    //     }
-
-    //     BoardState* newBoard = new BoardState(addChild->board);
-    //     newBoard->gnCost = this->gnCost + 1;
-        
-    //     //cout << "GNCOST!!!!!!!!!!!!!!!!!!!!!!!: " << newBoard->gnCost << endl;
-    //     newBoard->parent = this;
-
-    //     priority_queue<BoardState*> tempQ = visitedStates;
-
-    //     while(!(tempQ.empty())){
-
-    //       if(newBoard->board == tempQ.top()->board) {
-    //         flag = true;
-    //         break;
-    //       }
-    //       else {
-    //         flag = false;
-    //         tempQ.pop();
-    //       }
-    //     }
-
-    //     if (!flag) {
-
-          
-    //       expandStates.push(newBoard);
-    
-
-    //     }
-  
-    //   }
-
-
-
-    // }
-
     void printPuzzleState(){
 
         for(unsigned int i = 0; i < this->board.size(); i++){
@@ -243,27 +177,7 @@ cout << endl;
 cout << endl;
     }
 
-    // int solvePuzzle(int heuristic){
-
-    //   while(expandStates.size() != 0){
-
-    //     BoardState* topNode = expandStates.top();
-    //     expandStates.pop();
-
-
-    //     visitedStates.push(topNode);
-
-    //     if(topNode->board == goalState){
-    //       this->printSolution(topNode);
-    //       return topNode->gnCost;
-    //     }
-
-    //     topNode->expandBoardState(heuristic, expandStates);
-
-
-
-    //   }
-    // }
+    
 
     void printSolution(BoardState* final) {
       while (final->parent) {
