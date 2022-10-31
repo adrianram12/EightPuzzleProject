@@ -102,6 +102,41 @@ int solvePuzzle(int);
 
     }
 
+    int ManhattanDistance() {
+        int manhattanD = 0;
+        int x1Coordinate = 0;
+        int x2Coordinate = 0;
+        int y1Coordinate = 0;
+        int y2Coordinate = 0;
+
+      for (int i = 0; i < this->board.size(); i++) {
+        for (int j = 0; j < this->board.size(); j++) {
+
+          if ((this->board.at(i).at(j) != 0) &&
+             (this->board.at(i).at(j) != goalState.at(i).at(j))) {
+
+            x1Coordinate = i;
+            y1Coordinate = j;
+
+            for (int k = 0; k < goalState.size(); k++) {
+              for (int l = 0; l < goalState.size(); l++) {
+
+                if (this->board.at(x1Coordinate).at(y1Coordinate) == goalState.at(k).at(l)) {
+                   x2Coordinate = k;
+                   y2Coordinate = l;
+                    break;
+              }
+            }
+          }
+
+          manhattanD = abs(x1Coordinate - x2Coordinate) + abs(y1Coordinate - y2Coordinate) + manhattanD;
+        }
+      }
+    }
+    
+    return manhattanD;
+  }
+
     void findBlankSpace(){
 
       for(unsigned int i = 0; i < 3; i++){
@@ -277,7 +312,7 @@ void BoardState::expandBoardState(int heuristic){
 
         else if(heuristic == 2){
 
-          //fnCost = this->gnCost + ManhattanDistance();
+          fnCost = this->gnCost + ManhattanDistance();
         }
 
         BoardState* newBoard = new BoardState(addChild->board);
@@ -355,9 +390,9 @@ vector<vector<int> > level8 = {{0,7,2}, {4,6,1}, {3,5,8}};  //depth: 24
 
 int main(){
 
-  int heuristic = 1;
+  int heuristic = 2;
   //ActualPuzzle puzzle;
-  BoardState* theInitial = new BoardState(level4);
+  BoardState* theInitial = new BoardState(level6);
   expandStates.push(theInitial);
 
   clock_t startTime = clock();
@@ -365,7 +400,7 @@ int main(){
 
   cout << "Total Cost f(n): " << solvedDepth << endl; 
 
-  cout << "Total time: " << (clock() - startTime) / (CLOCKS_PER_SEC / 1000) << endl;
+  cout << "Total time: " << (float)(clock() - startTime) / (CLOCKS_PER_SEC / 1000) << endl;
   delete theInitial;
 
   return 0;
