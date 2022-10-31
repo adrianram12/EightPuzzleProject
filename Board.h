@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <algorithm>
 
 //#include "BoardCompare.h"
 
@@ -11,8 +12,9 @@ using namespace std;
 
 class BoardState;
 
-queue<BoardState*> visitedStates;
-queue<BoardState*> expandStates;
+priority_queue<BoardState*> visitedStates;
+//priority_queue<BoardState*, vector<BoardState*>, Comparison > expandStates;
+
 
 vector<vector<int> > goalState = {{1,2,3}, {4,5,6}, {7,8,0}};
 
@@ -20,7 +22,6 @@ vector<vector<int> > goalState = {{1,2,3}, {4,5,6}, {7,8,0}};
 class BoardState{
 
 public:
-   // BoardCompare *a;
     vector<vector<int> > board;
     int xcoordinate;
     int ycoordinate;
@@ -31,10 +32,12 @@ public:
 
     BoardState* parent = nullptr;
 
-    bool operator()(BoardState* rhs)
-  {
-        return this->gnCost < rhs->gnCost;
-  }
+   
+
+  //   bool operator()(BoardState* rhs)
+  // {
+  //       return this->gnCost < rhs->gnCost;
+  // }
 
     BoardState(){
       this->findBlankSpace();
@@ -44,8 +47,6 @@ public:
     }
 
     BoardState(vector<vector<int> > x){
-
-        // cout << "sbout to find blank spac" << endl;
         this->board = x;
 
         this->findBlankSpace();
@@ -68,16 +69,9 @@ public:
       parent = new BoardState();
       *parent = copyConstr.parent;
 
-      //cout << "printing copyconstr board" << endl;
-      //copyConstr.printBoardState();
-      //cout << "printing parent board " << endl;
-      //parent->printBoardState();
-
     }
 
     BoardState operator=(BoardState* overload){
-      //cout << "Printing overload statement" << endl;
-      //overload->printBoardState();
 
       BoardState newBoard;
 
@@ -115,7 +109,6 @@ public:
       for(unsigned int i = 0; i < 3; i++){
 
         for(unsigned int j = 0; j < 3; j++){
-          // cout << board.at(i).at(j) << endl;
 
           if(this->board.at(i).at(j) == 0){
             this->xcoordinate = i;
@@ -127,9 +120,6 @@ public:
 
     vector<vector<int> > legalMoves(){
 
-      // cout << xcoordinate << endl;
-      // cout << ycoordinate << endl;
-
       vector<vector<int> > potentialMoves = {{xcoordinate - 1, ycoordinate}, {xcoordinate + 1, ycoordinate}, {xcoordinate, ycoordinate - 1}, {xcoordinate, ycoordinate + 1}};
 
       vector<vector<int> > validMoves;
@@ -139,46 +129,29 @@ public:
           if((potentialMoves.at(i).at(0) >= 0 && potentialMoves.at(i).at(0) <= 2) && (potentialMoves.at(i).at(1) >= 0 && potentialMoves.at(i).at(1) <= 2)){
 
             validMoves.push_back(potentialMoves.at(i));
-            //cout << "potential moves " << potentialMoves.at(i).at(0) << " " << potentialMoves.at(i).at(1) << endl; //comment this out
+             
           }
       }
-
-     //cout << endl; //comment out
-     // cout << endl; //comment out
 
       return validMoves;
 
     }
 
-    void expandBoardState(int heuristic){
-
+    void expandBoardState(int heuristic, priority_queue<BoardState*, vector<BoardState*>, Comparison > expandStates){
       vector<vector<int> > validMoves = this->legalMoves();
 
       for(int i = 0; i < validMoves.size(); i++){
-        //this->printBoardState();
-        // cout << "this xcoordinate: " << this->xcoordinate << endl;
-        // cout << "this ycoordinate: " << this->ycoordinate << endl;
+        
         bool flag = false;
 
         BoardState* addChild = new BoardState(this->board); //deep copy
-
-        //cout << "Printing the deep copy" << endl;
-        //addChild->printBoardState();
         
 
         int temp = addChild->board.at((validMoves.at(i).at(0))).at(validMoves.at(i).at(1));
 
-        //cout << temp << endl;
-
         addChild->board.at((validMoves.at(i).at(0))).at(validMoves.at(i).at(1)) = addChild->board.at(this->xcoordinate).at(this->ycoordinate);
 
-        //cout << addChild->board.at((validMoves.at(i).at(0))).at(validMoves.at(i).at(1)) << endl;
-
         addChild->board.at(xcoordinate).at(ycoordinate) = temp;
-        //this->printBoardState();
-        //addChild->printBoardState();
-        //cout << "-----------------------------------" << endl;
-        //cout << addChild->board.at(xcoordinate).at(ycoordinate) << endl;
 
         if(heuristic == 1){
           fnCost = this->gnCost + MisplacedTile();
@@ -195,11 +168,11 @@ public:
         //cout << "GNCOST!!!!!!!!!!!!!!!!!!!!!!!: " << newBoard->gnCost << endl;
         newBoard->parent = this;
 
-        queue<BoardState*> tempQ = visitedStates;
+        priority_queue<BoardState*> tempQ = visitedStates;
 
         while(!(tempQ.empty())){
 
-          if(newBoard->board == tempQ.front()->board) {
+          if(newBoard->board == tempQ.top()->board) {
             flag = true;
             break;
           }
@@ -216,8 +189,7 @@ public:
     
 
         }
-  // cout << "Printing newboard board state" << endl;
-  //       newBoard->printBoardState();
+  
       }
 
 
@@ -237,6 +209,44 @@ public:
 cout << endl;
 cout << endl;
     }
+
+    int solvePuzzle(int heuristic, priority_queue<BoardState*, vector<BoardState*>, Comparison > expandStates){
+
+      while(expandStates.size() != 0){
+
+        BoardState* topNode = expandStates.top();
+        expandStates.pop();
+
+
+        visitedStates.push(topNode);
+
+        if(topNode->board == goalState){
+          this->printSolution(topNode);
+          return topNode->gnCost;
+        }
+
+        topNode->expandBoardState(heuristic, expandStates);
+
+
+
+      }
+    }
+
+    void printSolution(BoardState* final) {
+      while (final->parent) {
+        final->printPuzzleState();
+        final = final->parent;
+      }
+    }
+};
+
+struct Comparison{
+
+  bool operator()(BoardState* lhs, BoardState* rhs){
+
+    return lhs->gnCost > rhs->gnCost;
+
+  }
 };
 
 class ActualPuzzle{
@@ -248,11 +258,11 @@ class ActualPuzzle{
         return lhs->gnCost < rhs->gnCost;
   }
 
-    int solvePuzzle(int heuristic){
+    int solvePuzzle(int heuristic, priority_queue<BoardState*, vector<BoardState*>, Comparison > expandStates){
 
       while(expandStates.size() != 0){
 
-        BoardState* topNode = expandStates.front();
+        BoardState* topNode = expandStates.top();
         expandStates.pop();
 
 
@@ -263,7 +273,7 @@ class ActualPuzzle{
           return topNode->gnCost;
         }
 
-        topNode->expandBoardState(heuristic);
+        topNode->expandBoardState(heuristic, expandStates);
 
 
 
@@ -279,5 +289,7 @@ class ActualPuzzle{
 
     
 };
+
+
 
 #endif
