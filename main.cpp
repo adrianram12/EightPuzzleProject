@@ -456,11 +456,11 @@ int main() {
     cout << endl;
     cout << endl;
 
-    cout << "Please select the algorithm you would like to use to solve your "
-            "puzzle. Type '1' for Uniform Cost Search. Type '2' for A* with "
-            "the Misplaced Tile heuristic. Type '3' for A* with the Manhattan "
-            "Distance heuristic."
-         << endl;
+    cout << "Please select the algorithm you would like to use to solve your puzzle." << endl;
+    cout << "Type '1' for Uniform Cost Search." << endl;
+    cout << "Type '2' for A* with the Misplaced Tile heuristic." << endl;
+    cout << "Type '3' for A* with the Manhattan Distance heuristic." << endl;
+
 
     cout << endl;
 
@@ -549,11 +549,10 @@ int main() {
     cout << endl;
     cout << endl;
 
-    cout << "Please select the algorithm you would like to use to solve your "
-            "puzzle. Type '1' for Uniform Cost Search. Type '2' for A* with "
-            "the Misplaced Tile heuristic. Type '3' for A* with the Manhattan "
-            "Distance heuristic."
-         << endl;
+    cout << "Please select the algorithm you would like to use to solve your puzzle." << endl;
+    cout << "Type '1' for Uniform Cost Search." << endl;
+    cout << "Type '2' for A* with the Misplaced Tile heuristic." << endl;
+    cout << "Type '3' for A* with the Manhattan Distance heuristic." << endl;
 
     cout << endl;
 
@@ -597,7 +596,7 @@ int main() {
 
   cout << "Total time: " << ((clock() - startTime) / (double)CLOCKS_PER_SEC)
        << " seconds" << endl;
-       
+
   delete theInitial;
 
   return 0;
