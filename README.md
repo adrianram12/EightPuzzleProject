@@ -39,3 +39,9 @@ The A* algorithm is known as the fastest search algorithm. It combines the compl
 ### A* with the Manhattan Distance Heuristic
 
 This algorithm is similar to the Misplaced Tile Heuristic in that it uses A* to search through the nodes. In this case, we use the Manhattan Distance Heuristic instead. For this heuristic, we compare the current state with the goal state by counting the total number of spaces all misplaced tiles are away from their individual correct positions. 
+
+## Algorithm Analysis
+
+For this project, I decided to compare all three algorithms in terms of their runtime and the number of nodes they expanded when searching for the goal state. To do this, I used eight test cases that were provided by Dr. Keogh in the Project 1 Requirements. The test cases can be seen in Figure 2. Tracebacks of an easy and hard test case are provided at the end of the report. I did not include the full traceback for the hard puzzle in order to save space, given its depth is 20.
+
+![Images/TestCases.png]
