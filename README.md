@@ -36,3 +36,6 @@ Uniform Cost Search, also known simply as UCS, is a type of Blind Search Algorit
 
 The A* algorithm is known as the fastest search algorithm. It combines the completeness and optimality of Uniform Cost Search with the fast time complexity of Hill-Climbing Search. As explained by Dr. Keogh, the algorithm enqueues nodes “in order of estimated cost to goal f(n).” Here, f(n) is the cost to get to a particular node, g(n), plus the estimated distance to the goal, h(n). The h(n) is known as the type of heuristic used in the algorithm. A heuristic is a function that approximates how far the current state is to the goal state. We only use heuristics that are admissible, which means they never overestimate the “merit of a state.” One of the heuristics used in this project is known as the Misplaced Tile Heuristic. For this heuristic, we simply compare the current state with the goal state by counting the number of misplaced tiles.
 
+### A* with the Manhattan Distance Heuristic
+
+This algorithm is similar to the Misplaced Tile Heuristic in that it uses A* to search through the nodes. In this case, we use the Manhattan Distance Heuristic instead. For this heuristic, we compare the current state with the goal state by counting the total number of spaces all misplaced tiles are away from their individual correct positions. 
