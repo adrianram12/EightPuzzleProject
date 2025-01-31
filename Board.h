@@ -6,15 +6,11 @@
 #include <queue>
 #include <algorithm>
 
-//#include "BoardCompare.h"
-
 using namespace std;
 
 class BoardState;
 
 priority_queue<BoardState*> visitedStates;
-//priority_queue<BoardState*, vector<BoardState*>, Comparison > expandStates;
-
 
 vector<vector<int> > goalState = {{1,2,3}, {4,5,6}, {7,8,0}};
 
@@ -31,13 +27,6 @@ public:
     int hnCost = 0;
 
     BoardState* parent = nullptr;
-
-   
-
-  //   bool operator()(BoardState* rhs)
-  // {
-  //       return this->gnCost < rhs->gnCost;
-  // }
 
     BoardState(){
       this->findBlankSpace();
@@ -159,13 +148,12 @@ public:
 
         else if(heuristic == 2){
 
-          //fnCost = this->gnCost + ManhattanDistance();
+          
         }
 
         BoardState* newBoard = new BoardState(addChild->board);
         newBoard->gnCost = this->gnCost + 1;
         
-        //cout << "GNCOST!!!!!!!!!!!!!!!!!!!!!!!: " << newBoard->gnCost << endl;
         newBoard->parent = this;
 
         priority_queue<BoardState*> tempQ = visitedStates;
@@ -191,8 +179,6 @@ public:
         }
   
       }
-
-
 
     }
 
