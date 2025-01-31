@@ -8,7 +8,7 @@ For this project, I implemented an Eight Puzzle solver using C++. Using this pro
 
 Through out this project, I consulted the following resources:
 
-1. Doctor Eamonn Keogh's Lecture slides on Blind Search and Heursitic Search
+1. Dr. Eamonn Keogh's Lecture slides on Blind Search and Heursitic Search
 
     - [a. 2__Blind Search_part1.pptx](https://www.dropbox.com/sh/rltooq0t3khobuj/AAA3MYkZc8gb1RLa3tNSnsrga?dl=0&preview=2__Blind+Search_part1.pptx)
 	- [b. 2__Blind Search_part2.pptx](https://www.dropbox.com/sh/rltooq0t3khobuj/AAA3MYkZc8gb1RLa3tNSnsrga?dl=0&preview=2__Blind+Search_part2.pptx)
