@@ -4,7 +4,8 @@
 
 The Eight Puzzle is a type of sliding tile puzzle that involves a 3x3 grid of squares that are numbered and has one square that is empty. Initially, these numbers are scrambled in random order on the grid. The player's goal is to order these numbers using the fewest moves possible.
 
-![figure1](Figures/8PuzzleImage.png)
+<img src = "Figures/8PuzzleImage.png>" width = "500" />
+
 For this project, I implemented an Eight Puzzle solver using C++. Using this programming langauge helped me learn about its advanced capabilties as well as increase my mastery of the lanaguage. Within this project, I implemneted three unique algorithms that are capable of solving this type of puzzle. These include Uniform Cost Search, A* with a Misplaced Tile Heuristic, and A* with a Manhattan Distance Heuristic. The overall performance of these algorithms is evaluated and shown below.
 
 Throughout this project, I consulted the following resources:
