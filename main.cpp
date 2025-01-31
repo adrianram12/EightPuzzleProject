@@ -61,7 +61,7 @@ public:
   }
 
 
-  //Copy Constructor used to create a Deep Copy of a node/BaordState
+  //Copy Constructor used to create a Deep Copy of a node/BoardState
   BoardState(BoardState &copyConstr) {
 
     xcoordinate = copyConstr.xcoordinate;
@@ -248,7 +248,7 @@ int maxQueueSize = expandStates.size();
 //function that expands the current BoardState object's children
 void BoardState::expandBoardState(int heuristic) {
 
-  //first calls legalMoves function in order to determine all possbile moves
+  //first calls legalMoves function in order to determine all possible moves
   vector<vector<int>> validMoves = this->legalMoves();
 
   for (int i = 0; i < validMoves.size(); i++) {
