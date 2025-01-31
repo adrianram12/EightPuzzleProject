@@ -15,7 +15,7 @@ class BoardState;
 priority_queue<BoardState *> visitedStates;
 
 
-//2D vector that is hardcoded to be the expected Goal State used for comparison of each baord configuration
+//2D vector that is hardcoded to be the expected Goal State used for comparison of each board configuration
 vector<vector<int>> goalState = {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
 
 //BaordState class creates the node for each generated board configuration
