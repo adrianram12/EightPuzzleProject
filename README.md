@@ -47,3 +47,19 @@ This algorithm is similar to the Misplaced Tile Heuristic in that it uses A* to 
 For this project, I decided to compare all three algorithms in terms of their runtime and the number of nodes they expanded when searching for the goal state. To do this, I used eight test cases that were provided by Dr. Keogh in the Project 1 Requirements. The test cases can be seen in Figure 2. Tracebacks of an easy and hard test case are provided at the end of the report. I did not include the full traceback for the hard puzzle in order to save space, given its depth is 20.
 
 ![figure2](Figures/TestCases.png)
+
+![figure2](Figures/TestCases.png)
+
+The following are my results of these comparisons.
+
+As depicted in Figure 3, we can see that the Manhattan Distance Heuristic has the fastest runtime. For example, at depth 16, UCS finds a solution in about 2 minutes, Misplaced Tile finds a solution in about half a second, and Manhattan finds a solution in about one-twentieth of a second. This means that Manhattan runs about 3,000 times faster than UCS and about 10 times faster than Misplaced Tile.
+
+<img src = "Figures/Figure3.png" width = "300" />
+
+As depicted in Figure 4, we can see that the Manhattan Distance Heuristic also expands the least amount of nodes, making it very efficient and optimal. For example, at depth 16, UCS expands 17,960 nodes, Misplaced Tile expands 1,066 nodes, and Manhattan expands only 279 nodes. This means that Manhattan expands about 17,680 less nodes than UCS and about 785 less nodes than Misplaced Tile. This makes it the most efficient when finding the goal state.
+
+<img src = "Figures/Figure4.png" width = "300" />
+
+## Conclusion
+
+After careful analysis of these three algorithms, it can be said that A* with the Manhattan Distance Heuristic is indeed the fastest search algorithm that is complete and optimal. Its runtime is much quicker than those of the other two, while expanding less nodes as well. From this, I can conclude that the use of a heuristic is greatly beneficial to an algorithm searching for a particular goal state. It allows the algorithm to perform an Informed Search, which allows its total cost, f(n), to be minimized. My results also imply that some heuristics perform better than others. Although this is evident, using any heuristic will bring better results than those brought by any Blind Search algorithm.
