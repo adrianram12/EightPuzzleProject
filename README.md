@@ -69,6 +69,6 @@ As depicted in Figure 4, we can see that the Manhattan Distance Heuristic also e
 After careful analysis of these three algorithms, it can be said that A* with the Manhattan Distance Heuristic is indeed the fastest search algorithm that is complete and optimal. Its runtime is much quicker than those of the other two, while expanding less nodes as well. From this, I can conclude that the use of a heuristic is greatly beneficial to an algorithm searching for a particular goal state. It allows the algorithm to perform an Informed Search, which allows its total cost, f(n), to be minimized. My results also imply that some heuristics perform better than others. Although this is evident, using any heuristic will bring better results than those brought by any Blind Search algorithm.
 
 <p align = "center">
-    <img src = "Figures/TracebackEasy.png" width = "300" />
-    <img src = "Figures/TracebackHard.png" width = "300" />
+    <img src = "Figures/TracebackEasy.png" width = "300", title = "Traceback of an Easy Puzzle (Depth 2) />
+    <img src = "Figures/TracebackHard.png" width = "300", title = "Traceback of a Hard Puzzle (Depth 20) />
 </p>
