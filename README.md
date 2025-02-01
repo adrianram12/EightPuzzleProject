@@ -71,6 +71,10 @@ After careful analysis of these three algorithms, it can be said that A* with th
 <p align = "center">
   <table>
     <tr>
+      <td><img src = "Figures/TracebackEasy.png" width = "300" title = "Traceback of an Easy Puzzle (Depth 2)"></td>
+      <td><img src = "Figures/TracebackHard.png" width = "300" title = "Traceback of a Hard Puzzle (Depth 20)"></td>
+    </tr>
+    <tr>
       <td align = "center"><b>Traceback of an Easy Puzzle (Depth 2)</b></td>
       <td align = "center"><b>Traceback of a Hard Puzzle (Depth 20)</b></td>
     </tr>
