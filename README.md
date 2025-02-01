@@ -48,17 +48,15 @@ For this project, I decided to compare all three algorithms in terms of their ru
 
 ![figure2](Figures/TestCases.png)
 
-![figure2](Figures/TestCases.png)
-
 The following are my results of these comparisons.
 
 As depicted in Figure 3, we can see that the Manhattan Distance Heuristic has the fastest runtime. For example, at depth 16, UCS finds a solution in about 2 minutes, Misplaced Tile finds a solution in about half a second, and Manhattan finds a solution in about one-twentieth of a second. This means that Manhattan runs about 3,000 times faster than UCS and about 10 times faster than Misplaced Tile.
 
-<img src = "Figures/Figure3.png" width = "300" />
+<img src = "Figures/Figure3.png" />
 
 As depicted in Figure 4, we can see that the Manhattan Distance Heuristic also expands the least amount of nodes, making it very efficient and optimal. For example, at depth 16, UCS expands 17,960 nodes, Misplaced Tile expands 1,066 nodes, and Manhattan expands only 279 nodes. This means that Manhattan expands about 17,680 less nodes than UCS and about 785 less nodes than Misplaced Tile. This makes it the most efficient when finding the goal state.
 
-<img src = "Figures/Figure4.png" width = "300" />
+<img src = "Figures/Figure4.png" />
 
 ## Conclusion
 
